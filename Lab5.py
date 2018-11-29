@@ -20,7 +20,7 @@ class Heap:
     #Method to sort new inserts mantaining the properties of the heap by comparing with the node's parent
     def sort_up(self, pos):
         #While the index of the node is bigger than 0
-        while pos >= 1:
+        while pos > 0:
             #Get parent's index
             parent = (pos-1)//2
             #If the node is smaller than the parent then swap them
@@ -28,8 +28,11 @@ class Heap:
                 temp = self.heap_array[pos]
                 self.heap_array[pos] = self.heap_array[parent]
                 self.heap_array[parent] = temp
+
                 pos = parent
-            return
+            else:
+                return
+
     #Method to sort new inserts mantaining the properties of the heap by comparing with the node's child
     def sort_down(self, pos):
         #Get child's index
@@ -43,7 +46,7 @@ class Heap:
             #While i is less than 2 and i plus the child's index is bigger than the max value
             while i < 2 and i + child < len(self.heap_array):
                 #If the node at the child's plus i index is greater than the max value
-                if self.heap_array[i + child] > max_val:
+                if self.heap_array[i + child] < max_val:
                     #Set the max value to the node and tha max index to said index
                     max_val = self.heap_array[i + child]
                     max_ind = i + child
@@ -79,6 +82,7 @@ class Heap:
     def is_empty(self):
         return len(self.heap_array) == 0
 
+
 #Method to sort the heap completely
 def heap_sort(list):
     heap = Heap()
@@ -94,19 +98,20 @@ def heap_sort(list):
     #Return the resulted list
     return result
 
+
 #Method to read the test file
 def read_file(file_name):
     f = open(file_name)
-    file = f.read().splitlines()
     list = []
 
     #Loop to split all the lines in the files and the numbers in each line and append each number to the list
-    for i in range(len(file)):
-        line = file[i].split(",")
-        for j in range(len(line)):
-            list.append(line[j])
+    for line in f:
+        lines = line.split(",")
+        for i in lines:
+            list.append(int(i))
 
     return list
+
 
 #Main Method: Call the read file method and heap sort method, as well as print the elements in the sorted list.
 def main():
